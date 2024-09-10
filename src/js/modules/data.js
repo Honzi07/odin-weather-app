@@ -4,3 +4,19 @@ async function getWeather(location = 'budapest') {
   );
   return await response.json();
 }
+
+async function processWeather() {
+  const data = await getWeather();
+
+  console.log(data);
+
+  const weatherObj = {
+    today: data.currentConditions,
+    days: data.days,
+    description: data.description,
+    location: data.resolvedAddress,
+  };
+
+  console.log(weatherObj);
+}
+processWeather();
