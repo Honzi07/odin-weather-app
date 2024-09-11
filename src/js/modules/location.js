@@ -5,32 +5,27 @@ const getLocationInput = () => {
   return { loc: inputSearch.value };
 };
 
-const locationData = (pos) => {
-  console.log(pos);
-
-  const position = {
-    lat: pos.coords.latitude,
-    lon: pos.coords.longitude,
-  };
-  console.log(position);
-
-  // getWeather2(position.latitude, position.longitude);
-
-  // return {
-  //   lat: pos.coords.latitude,
-  //   lon: pos.coords.longitude,
-  // };
+const currentPositionPromise = (options) => {
+  return new Promise((resolve, reject) => {
+    navigator.geolocation.getCurrentPosition(resolve, reject, options);
+  });
 };
 
-const error = (err) => {
-  console.error(`ERROR(${err.code}): ${err.message}`);
-};
+async function getCurrentPosition() {
+  try {
+    const position = await currentPositionPromise({
+      enableHighAccuracy: true,
+      timeout: 5000,
+    });
 
-const locationOptions = {
-  enableHighAccuracy: true,
-  timeout: 5000,
-};
+    return {
+      lat: position.coords.latitude,
+      lon: position.coords.longitude,
+    };
+  } catch (err) {
+    console.error(`ERROR(${err.code}): ${err.message}`);
+  }
+}
+getCurrentPosition();
 
-navigator.geolocation.getCurrentPosition(locationData, error, locationOptions);
-
-export { getLocationInput };
+export { getLocationInput, getCurrentPosition };
