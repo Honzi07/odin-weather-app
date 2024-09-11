@@ -1,5 +1,12 @@
-// import { getLocation, form } from './location';
+import handleWeatherProcessing from './data';
 
-const form = document.querySelector('form');
+function getHtmlElement() {
+  return {
+    form: document.querySelector('form'),
+  };
+}
+
+// const { form } = getHtmlElement();
+const form = getHtmlElement().form;
 
 form.addEventListener('submit', handleWeatherProcessing);
