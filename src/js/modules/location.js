@@ -1,7 +1,5 @@
 const getLocationInput = () => {
   const inputSearch = document.querySelector('#search');
-  console.log({ loc: inputSearch.value });
-  // return inputSearch.value;
   return { loc: inputSearch.value };
 };
 
@@ -26,6 +24,5 @@ async function getCurrentPosition() {
     console.error(`ERROR(${err.code}): ${err.message}`);
   }
 }
-getCurrentPosition();
 
 export { getLocationInput, getCurrentPosition };
