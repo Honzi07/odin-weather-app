@@ -1,12 +1,12 @@
-import handleWeatherProcessing from './data';
+import { getProcessGeoWeather, getProcessUserWeather } from './data';
 
 function getHtmlElement() {
   return {
-    form: document.querySelector('form'),
+    form: document.querySelector('.search-form'),
+    searchInput: document.querySelector('.search-input'),
+    btnGeo: document.querySelector('.geolocation-btn'),
   };
 }
 
 // const { form } = getHtmlElement();
 const form = getHtmlElement().form;
-
-form.addEventListener('submit', handleWeatherProcessing);

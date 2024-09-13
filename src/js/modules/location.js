@@ -1,5 +1,5 @@
 const getLocationInput = () => {
-  const inputSearch = document.querySelector('#search');
+  const inputSearch = document.querySelector('#search-input');
   return { loc: inputSearch.value };
 };
 
