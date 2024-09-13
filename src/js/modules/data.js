@@ -33,12 +33,24 @@ const processWeather = (data) => {
   return weatherObj;
 };
 
-export default async (ev) => {
-  ev.preventDefault();
+const getGeolocation = async () => {
+  const coords = await getCurrentPosition();
+  // console.log(coords);
+
+  if (coords) {
+    const weatherData = await getWeather(coords);
+    console.log('geolocation', processWeather(weatherData));
+    return processWeather(weatherData);
+  }
+};
+
+const getLocationByUser = async (ev) => {
+  // ev.preventDefault();
 
   const location = getLocationInput();
   const weatherData = await getWeather(location);
-
   console.log('user', processWeather(weatherData));
   return processWeather(weatherData);
 };
+
+export { getGeolocation, getLocationByUser };
