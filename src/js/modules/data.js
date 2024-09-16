@@ -1,10 +1,10 @@
 import { getLocationInput, getCurrentPosition } from './location';
 
-async function getWeather({ loc, lat, lon }) {
+async function getWeather({ loc, lat, lon, unit }) {
   try {
-    const userInput = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${loc}?unitGroup=metric&key=T963D97FLMH7J94QPR4VCDHZZ&contentType=json`;
+    const userInput = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${loc}?unitGroup=${unit}&key=T963D97FLMH7J94QPR4VCDHZZ&contentType=json`;
 
-    const geolocation = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${lat},${lon}?key=T963D97FLMH7J94QPR4VCDHZZ&contentType=json`;
+    const geolocation = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${lat},${lon}?unitGroup=${unit}&key=T963D97FLMH7J94QPR4VCDHZZ&contentType=json`;
 
     let response;
     if (loc) {
@@ -34,19 +34,31 @@ const processWeather = (data) => {
 
 const getProcessGeoWeather = async () => {
   const coords = await getCurrentPosition();
+  const unit = getTempUnit();
+  const weatherParams = { ...coords, ...unit };
 
   if (coords) {
-    const weatherData = await getWeather(coords);
+    const weatherData = await getWeather(weatherParams);
     console.log('geolocation', processWeather(weatherData));
     return processWeather(weatherData);
   }
 };
 
 const getProcessUserWeather = async () => {
+  const unit = getTempUnit();
   const location = getLocationInput();
-  const weatherData = await getWeather(location);
+  const weatherParams = { ...location, ...unit };
+  const weatherData = await getWeather(weatherParams);
   console.log('user', processWeather(weatherData));
   return processWeather(weatherData);
 };
 
-export { getProcessGeoWeather, getProcessUserWeather };
+function getTempUnit() {
+  const c = document.querySelector('#celsius');
+  const f = document.querySelector('#fahrenheit');
+  const unit = f.checked ? f.dataset.unit : c.dataset.unit;
+
+  return { unit: unit };
+}
+
+export { getProcessGeoWeather, getProcessUserWeather, getTempUnit };
