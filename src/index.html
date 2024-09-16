@@ -11,14 +11,37 @@
   </head>
   <body>
     <p class="status-message"></p>
-    <form class="search-form" action="">
-      <label for="search-input" aria-label="Search">
-        <i class="fa-solid fa-magnifying-glass"></i
+    <form class="search-form" action="get">
+      <label for="search-input" aria-label="search">
+        <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i
       ></label>
       <input value="Pécs, HU" type="text" id="search-input" name="search" />
     </form>
-    <button class="geolocation-btn">
-      <i class="fa-solid fa-location-dot"></i>
+    <button class="geolocation-btn" aria-label="geolocation">
+      <i class="fa-solid fa-location-dot" aria-hidden="true"></i>
     </button>
+    <fieldset class="temp-selection">
+      <legend>Change temperature unit</legend>
+      <div class="temp-celsius">
+        <input
+          type="radio"
+          id="celsius"
+          value="celsius"
+          name="temp-unit"
+          data-unit="metric"
+        />
+        <label for="celsius">°C</label>
+      </div>
+      <div class="temp-fahrenheit">
+        <input
+          type="radio"
+          id="fahrenheit"
+          value="fahrenheit"
+          name="temp-unit"
+          data-unit="us"
+        />
+        <label for="fahrenheit">°F</label>
+      </div>
+    </fieldset>
   </body>
 </html>
