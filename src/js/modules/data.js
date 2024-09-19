@@ -23,10 +23,12 @@ const processWeather = (data) => {
   if (!data) return;
 
   const weatherObj = {
-    today: data.currentConditions,
+    alerts: data.alerts,
+    currently: data.currentConditions,
     days: data.days,
     description: data.description,
     location: data.resolvedAddress,
+    tempUnit: getTempUnit().unit,
   };
 
   return weatherObj;
