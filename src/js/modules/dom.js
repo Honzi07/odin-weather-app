@@ -23,8 +23,12 @@ async function handleWeatherEv(ev) {
   }
 }
 
+function getWeatherIcon(icon) {
+  const svg = require('../../assets/images/' + icon + '.svg');
+
+  return svg;
+}
+
 async function showWeather(ev) {
   const data = await handleWeatherEv(ev);
-  console.log('test', data);
-  getHtmlElement().status.textContent = data.description;
 }
