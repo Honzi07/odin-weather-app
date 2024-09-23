@@ -10,39 +10,73 @@
     <title>Odin Weather</title>
   </head>
   <body>
-    <p class="status-message"></p>
-    <form class="search-form" action="get">
-      <label for="search-input" aria-label="search">
-        <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i
-      ></label>
-      <input value="Pécs, HU" type="text" id="search-input" name="search" />
-    </form>
-    <button class="geolocation-btn" aria-label="geolocation">
-      <i class="fa-solid fa-location-dot" aria-hidden="true"></i>
-    </button>
-    <fieldset class="temp-selection">
-      <legend>Change temperature unit</legend>
-      <div class="temp-celsius">
-        <input
-          type="radio"
-          id="celsius"
-          value="celsius"
-          name="temp-unit"
-          data-unit="metric"
-        />
-        <label for="celsius">°C</label>
+    <header>
+      <div class="search-container">
+        <form class="search-container__form" action="get">
+          <label
+            for="search-input"
+            aria-label="search"
+            class="search-container__label"
+          >
+            <i
+              class="search-container__icon search-container__icon--search fa-solid fa-magnifying-glass"
+              aria-hidden="true"
+            ></i
+          ></label>
+          <input
+            class="search-container__input"
+            value="Pécs, HU"
+            type="text"
+            id="search-input"
+            name="search"
+          />
+        </form>
+
+        <button
+          class="search-container__geolocation-btn"
+          aria-label="geolocation"
+        >
+          <i
+            class="search-container__icon search-container__icon--geo fa-solid fa-location-dot"
+            aria-hidden="true"
+          ></i>
+        </button>
       </div>
-      <div class="temp-fahrenheit">
-        <input
-          type="radio"
-          id="fahrenheit"
-          value="fahrenheit"
-          name="temp-unit"
-          data-unit="us"
-        />
-        <label for="fahrenheit">°F</label>
-      </div>
-    </fieldset>
+
+      <fieldset class="temp-selection">
+        <legend>Change temperature unit</legend>
+        <div class="temp-selection__temp-celsius">
+          <input
+            type="radio"
+            id="celsius"
+            class="temp-selection__input temp-selection__input--celsius"
+            value="celsius"
+            name="temp-unit"
+            data-unit="metric"
+          />
+          <label
+            class="temp-selection__label temp-selection__label--celsius"
+            for="celsius"
+            >°C</label
+          >
+        </div>
+        <div class="temp-selection__temp-fahrenheit">
+          <input
+            type="radio"
+            id="fahrenheit"
+            class="temp-selection__input temp-selection__input--fahrenheit"
+            value="fahrenheit"
+            name="temp-unit"
+            data-unit="us"
+          />
+          <label
+            class="temp-selection__label temp-selection__label--fahrenheit"
+            for="fahrenheit"
+            >°F</label
+          >
+        </div>
+      </fieldset>
+    </header>
     <main>
       <div class="current-weather">
         <header class="current-weather__header">
