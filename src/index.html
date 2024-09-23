@@ -43,5 +43,50 @@
         <label for="fahrenheit">°F</label>
       </div>
     </fieldset>
+    <main>
+      <div class="current-weather">
+        <header class="current-weather__header">
+          <div class="current-weather__today-label">Weather currently</div>
+          <p class="current-weather__update-time">06:44</p>
+        </header>
+
+        <div class="current-weather__summary-container">
+          <div class="current-weather__overview-current-temp">
+            <img
+              class="current-weather__image"
+              src="assets/images/cloudy.svg"
+              alt=""
+            />
+            <div class="current-weather__temp">16°C</div>
+            <div class="current-weather__condition-details">
+              <div class="current-weather__condition">Clear</div>
+              <div class="current-weather__feelslike-container">
+                <div class="current-weather__feelslike-label">Feels like</div>
+                <span class="current-weather__feelslike-temp">15°C</span>
+              </div>
+            </div>
+          </div>
+          <div class="current-weather__summary">
+            This is the current summary.
+          </div>
+        </div>
+        <div class="current-weather__detail-container">
+          <div class="current-weather__wind-item">
+            <div class="current-weather__wind-label">Wind</div>
+            <div class="current-weather__wind-speed-container">
+              <div class="current-weather__wind-speed">13kph</div>
+              <i
+                aria-label="Wind direction arrow"
+                class="current-weather__arrow-icon fa-solid fa-location-arrow"
+              ></i>
+            </div>
+          </div>
+          <div class="current-weather__humidity-item">
+            <div class="current-weather__humidity-label">Humidity</div>
+            <div class="current-weather__humidity-percentage">63%</div>
+          </div>
+        </div>
+      </div>
+    </main>
   </body>
 </html>
