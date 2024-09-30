@@ -28,7 +28,7 @@ const processWeather = (data) => {
     days: data.days,
     description: data.description,
     location: data.resolvedAddress,
-    tempUnit: getTempUnit().unit,
+    units: getSelectedUnits(),
   };
 
   return weatherObj;
@@ -36,8 +36,8 @@ const processWeather = (data) => {
 
 const getProcessGeoWeather = async () => {
   const coords = await getCurrentPosition();
-  const unit = getTempUnit();
-  const weatherParams = { ...coords, ...unit };
+  const unit = getSelectedUnits().system;
+  const weatherParams = { ...coords, unit };
 
   if (coords) {
     const weatherData = await getWeather(weatherParams);
@@ -47,20 +47,30 @@ const getProcessGeoWeather = async () => {
 };
 
 const getProcessUserWeather = async () => {
-  const unit = getTempUnit();
+  const unit = getSelectedUnits().system;
   const location = getLocationInput();
-  const weatherParams = { ...location, ...unit };
+  const weatherParams = { ...location, unit };
   const weatherData = await getWeather(weatherParams);
   console.log('user', processWeather(weatherData));
   return processWeather(weatherData);
 };
 
-function getTempUnit() {
-  const c = document.querySelector('#celsius');
+function getSelectedUnits() {
   const f = document.querySelector('#fahrenheit');
-  const unit = f.checked ? f.dataset.unit : c.dataset.unit;
 
-  return { unit: unit };
+  if (f.checked) {
+    return {
+      system: 'us',
+      temp: '°F',
+      speed: 'mph',
+    };
+  } else {
+    return {
+      system: 'metric',
+      temp: '°C',
+      speed: 'km/h',
+    };
+  }
 }
 
-export { getProcessGeoWeather, getProcessUserWeather, getTempUnit };
+export { getProcessGeoWeather, getProcessUserWeather };
