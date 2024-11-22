@@ -36,7 +36,7 @@ const displayAlerts = (data) => {
   }
 };
 
-async function currentWeatherElement(data, element) {
+function currentWeatherElement(data, element) {
   const html = `
         <div class="current-weather">
         <header class="current-weather__header">
@@ -55,7 +55,7 @@ async function currentWeatherElement(data, element) {
             />
             <div class="current-weather__temp">${Math.round(
               data.currently.temp
-            )}</div>
+            )} ${data.units.temp}</div>
             <div class="current-weather__condition-details">
               <div class="current-weather__condition">${
                 data.currently.conditions
@@ -98,6 +98,65 @@ async function currentWeatherElement(data, element) {
   element.insertAdjacentHTML('beforeend', html);
 }
 
+function hourWeatherContainer(element) {
+  const html = `
+      <div class="hourly-weather">
+        <div class="hourly-weather__btn-container">
+          <button class="hourly-weather__btn hourly-weather__btn--4" data-value="4">4 Hour</button>
+          <button class="hourly-weather__btn hourly-weather__btn--24" data-value="1">24 Hour</button>
+        </div>
+        <div class="hourly-weather__hour-container"></div>
+      </div>
+  `;
+
+  element.insertAdjacentHTML('beforeend', html);
+}
+
+function hourWeatherElement(data, interval = 3) {
+  const container = document.querySelector('.hourly-weather__hour-container');
+
+  const getFormattedHour = (hour, i) =>
+    i <= 9 ? hour.slice(1, 5) : hour.slice(0, 5);
+  const nextTwoDays = [...data.days[0].hours, ...data.days[1].hours];
+  const currentHour = new Date().getHours();
+
+  let i;
+  for (let num = currentHour; num <= currentHour + 24; num += interval) {
+    i = num;
+
+    const html = `
+      <div class="hourly-weather__hour">
+        <div class="hourly-weather__hour-time">${getFormattedHour(
+          nextTwoDays[i].datetime,
+          i
+        )}</div>
+        <img class="hourly-weather__hour-icon" src="${getWeatherIcon(
+          nextTwoDays[i].icon
+        )}" alt=" ${nextTwoDays[i].icon} weather icon" />
+        <div class="hourly-weather__hour-temp">${Math.round(
+          nextTwoDays[i].temp
+        )}</div>
+      </div>
+  `;
+
+    container.insertAdjacentHTML('beforeend', html);
+  }
+}
+
+function updateHourlyWeather(data) {
+  const weatherBtns = document.querySelectorAll('.hourly-weather__btn');
+
+  weatherBtns.forEach((btn) =>
+    btn.addEventListener('click', function () {
+      {
+        document.querySelector('.hourly-weather__hour-container').innerHTML =
+          '';
+        hourWeatherElement(data, Number(this.dataset.value));
+      }
+    })
+  );
+}
+
 async function renderCompleteWeather(ev) {
   const mainEl = document.querySelector('main');
 
@@ -105,6 +164,9 @@ async function renderCompleteWeather(ev) {
     const weatherData = await handleWeatherEv(ev);
     currentWeatherElement(weatherData, mainEl);
     displayAlerts(weatherData);
+    hourWeatherContainer(mainEl);
+    hourWeatherElement(weatherData);
+    updateHourlyWeather(weatherData);
   } catch (err) {
     console.error(err);
   }
