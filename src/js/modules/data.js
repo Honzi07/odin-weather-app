@@ -1,10 +1,13 @@
 import { getLocationInput, getCurrentPosition } from './location';
 
-async function getWeather({ loc, lat, lon, unit }) {
-  try {
-    const userInput = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${loc}?unitGroup=${unit}&key=T963D97FLMH7J94QPR4VCDHZZ&contentType=json`;
+async function getWeather(locationConfig) {
+  const { loc, lat, lon, unit } = locationConfig;
+  const language = getUserLanguage().shortLang;
 
-    const geolocation = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${lat},${lon}?unitGroup=${unit}&key=T963D97FLMH7J94QPR4VCDHZZ&contentType=json`;
+  try {
+    const userInput = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${loc}?unitGroup=${unit}&lang=${language}&key=T963D97FLMH7J94QPR4VCDHZZ&contentType=json`;
+
+    const geolocation = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${lat},${lon}?unitGroup=${unit}&lang=${language}&key=T963D97FLMH7J94QPR4VCDHZZ&contentType=json`;
 
     let response;
     if (loc) {
@@ -47,10 +50,10 @@ const processWeather = (data) => {
 const getProcessGeoWeather = async () => {
   const coords = await getCurrentPosition();
   const unit = getSelectedUnits().system;
-  const weatherParams = { ...coords, unit };
+  const locationConfig = { ...coords, unit };
 
   if (coords) {
-    const weatherData = await getWeather(weatherParams);
+    const weatherData = await getWeather(locationConfig);
     console.log('geolocation', processWeather(weatherData));
     return processWeather(weatherData);
   }
@@ -59,8 +62,8 @@ const getProcessGeoWeather = async () => {
 const getProcessUserWeather = async () => {
   const unit = getSelectedUnits().system;
   const location = getLocationInput();
-  const weatherParams = { ...location, unit };
-  const weatherData = await getWeather(weatherParams);
+  const locationConfig = { ...location, unit };
+  const weatherData = await getWeather(locationConfig);
   console.log('user', processWeather(weatherData));
   return processWeather(weatherData);
 };
