@@ -19,6 +19,15 @@ async function getWeather({ loc, lat, lon, unit }) {
   }
 }
 
+const getUserLanguage = () => {
+  const language = {
+    fullLang: navigator.language,
+    shortLang: navigator.language.split('-')[0].toLowerCase(),
+  };
+
+  return language;
+};
+
 const processWeather = (data) => {
   if (!data) return;
 
@@ -28,6 +37,7 @@ const processWeather = (data) => {
     days: data.days,
     description: data.description,
     location: data.resolvedAddress,
+    language: getUserLanguage(),
     units: getSelectedUnits(),
   };
 
