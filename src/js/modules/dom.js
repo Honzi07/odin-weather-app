@@ -157,8 +157,78 @@ function updateHourlyWeather(data) {
   );
 }
 
+function dayWeatherElement(data, mainContainer) {
+  const daysSection = document.createElement('section');
+  daysSection.classList.add('days-section');
+  daysSection.setAttribute('aria-label', 'next 14 day weather forecast');
+  mainContainer.appendChild(daysSection);
+
+  const getFormattedDate2 = (inputDate) => {
+    const options = {
+      weekday: 'short',
+      day: 'numeric',
+    };
+
+    const localizedDate = new Intl.DateTimeFormat(
+      data.language.fullLang,
+      options
+    ).formatToParts(new Date(inputDate));
+
+    let day = '';
+    let weekday = '';
+
+    if ((localizedDate[0].type = 'day')) day = localizedDate[0].value;
+    if ((localizedDate[2].type = 'day')) weekday = localizedDate[2].value;
+
+    return [day, weekday];
+  };
+
+  data.days.forEach((day) => {
+    const { datetime, icon, tempmax, tempmin, windspeed } = day;
+    const [date, weekday] = getFormattedDate2(datetime);
+
+    const html = `
+            <div class="day-weather">
+            <div class="day-weather__date-container">
+              <div class="day-weather__weekday">${weekday}</div>
+              <time class="day-weather__date" datetime="${datetime}">${date}</time>
+            </div>
+  
+            <div class="day-weather__wrapper">
+              <img class="day-weather__icon" src="${getWeatherIcon(
+                icon
+              )}" alt="${icon} weather icon" />
+            </div>
+  
+            <div class="day-weather-temp-container">
+              <div class="day-weather__temp day-weather__temp--max">${Math.round(
+                tempmax
+              )}</div>
+              <div class="day-weather__temp day-weather__temp--min">${Math.round(
+                tempmin
+              )}</div>
+            </div>
+  
+            <div class="day-weather__wind-container">
+              <div class="day-weather__wind-speed">${windspeed}${
+      data.units.speed
+    }</div>
+              <i
+                class="day-weather__arrow-icon fa-solid fa-location-arrow"
+                aria-label="Wind direction arrow"
+              ></i>
+            </div>
+          </div>
+    `;
+
+    daysSection.insertAdjacentHTML('beforeend', html);
+  });
+}
+
 async function renderCompleteWeather(ev) {
   const mainEl = document.querySelector('main');
+
+  mainEl.innerHTML = '';
 
   try {
     const weatherData = await handleWeatherEv(ev);
@@ -167,6 +237,7 @@ async function renderCompleteWeather(ev) {
     hourWeatherContainer(mainEl);
     hourWeatherElement(weatherData);
     updateHourlyWeather(weatherData);
+    dayWeatherElement(weatherData, mainEl);
   } catch (err) {
     console.error(err);
   }
