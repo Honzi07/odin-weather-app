@@ -36,6 +36,11 @@ const displayAlerts = (data) => {
   }
 };
 
+const getWindDirection = (windDegree) => {
+  const baseRotation = windDegree + 135;
+  return baseRotation < 360 ? baseRotation : baseRotation - 360;
+};
+
 function currentWeatherElement(data, element) {
   const html = `
         <div class="current-weather">
@@ -81,7 +86,10 @@ function currentWeatherElement(data, element) {
               )} ${data.units.speed}</div>
               <i
                 aria-label="Wind direction arrow"
-                class="current-weather__arrow-icon fa-solid fa-location-arrow"
+                class="current-weather__arrow-icon fa-solid fa-location-arrow fa-rotate-by" 
+                style="--fa-rotate-angle: ${getWindDirection(
+                  data.currently.winddir
+                )}deg;"
               ></i>
             </div>
           </div>
@@ -163,7 +171,7 @@ function dayWeatherElement(data, mainContainer) {
   daysSection.setAttribute('aria-label', 'next 14 day weather forecast');
   mainContainer.appendChild(daysSection);
 
-  const getFormattedDate2 = (inputDate) => {
+  const getFormattedDate = (inputDate) => {
     const options = {
       weekday: 'short',
       day: 'numeric',
@@ -184,8 +192,8 @@ function dayWeatherElement(data, mainContainer) {
   };
 
   data.days.forEach((day) => {
-    const { datetime, icon, tempmax, tempmin, windspeed } = day;
-    const [date, weekday] = getFormattedDate2(datetime);
+    const { datetime, icon, tempmax, tempmin, windspeed, winddir } = day;
+    const [date, weekday] = getFormattedDate(datetime);
 
     const html = `
             <div class="day-weather">
@@ -214,7 +222,8 @@ function dayWeatherElement(data, mainContainer) {
       data.units.speed
     }</div>
               <i
-                class="day-weather__arrow-icon fa-solid fa-location-arrow"
+                class="day-weather__arrow-icon fa-solid fa-location-arrow fa-rotate-by" 
+                style="--fa-rotate-angle: ${getWindDirection(winddir)}deg;"
                 aria-label="Wind direction arrow"
               ></i>
             </div>
