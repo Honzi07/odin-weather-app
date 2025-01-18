@@ -52,7 +52,6 @@
             class="temp-selection__input temp-selection__input--celsius"
             value="celsius"
             name="temp-unit"
-            data-unit="metric"
           />
           <label
             class="temp-selection__label temp-selection__label--celsius"
@@ -67,7 +66,6 @@
             class="temp-selection__input temp-selection__input--fahrenheit"
             value="fahrenheit"
             name="temp-unit"
-            data-unit="us"
           />
           <label
             class="temp-selection__label temp-selection__label--fahrenheit"
@@ -77,78 +75,10 @@
         </div>
       </fieldset>
       <div class="status-message">
-        <div class="status-message-label">Status message</div>
+        <div class="status-message__text">Status message</div>
       </div>
     </header>
-    <main>
-      <div class="current-weather">
-        <header class="current-weather__header">
-          <div class="current-weather__today-label">Weather currently</div>
-          <p class="current-weather__update-time">06:44</p>
-        </header>
-
-        <div class="current-weather__summary-container">
-          <div class="current-weather__alert-container">
-            <div class="current-weather__alert-description">Alert1</div>
-            <div class="current-weather__alert-description">Alert2</div>
-          </div>
-          <div class="current-weather__overview-current-temp">
-            <img
-              class="current-weather__image"
-              src="assets/images/cloudy.svg"
-              alt=""
-            />
-            <div class="current-weather__temp">16°C</div>
-            <div class="current-weather__condition-details">
-              <div class="current-weather__condition">Clear</div>
-              <div class="current-weather__feelslike-container">
-                <div class="current-weather__feelslike-label">Feels like</div>
-                <span class="current-weather__feelslike-temp">15°C</span>
-              </div>
-            </div>
-          </div>
-          <div class="current-weather__summary">
-            This is the current summary.
-          </div>
-        </div>
-        <div class="current-weather__detail-container">
-          <div class="current-weather__wind-item">
-            <div class="current-weather__wind-label">Wind</div>
-            <div class="current-weather__wind-speed-container">
-              <div class="current-weather__wind-speed">13kph</div>
-              <i
-                aria-label="Wind direction arrow"
-                class="current-weather__arrow-icon fa-solid fa-location-arrow"
-              ></i>
-            </div>
-          </div>
-          <div class="current-weather__humidity-item">
-            <div class="current-weather__humidity-label">Humidity</div>
-            <div class="current-weather__humidity-percentage">63%</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="hours-container">
-        <div class="hour">
-          <div class="hour__time">11:00</div>
-          <img class="hour__icon" src="" alt="" />
-          <div class="hour__temp">22</div>
-        </div>
-      </div>
-
-      <div class="days-container">
-        <div class="day">
-          <div class="day__date">23</div>
-          <img class="day__icon" src="" alt="" />
-          <div class="day__temp-container">
-            <div class="day__temp day__temp--max">25</div>
-            <div class="day__temp day__temp--min">18</div>
-          </div>
-        </div>
-      </div>
-    </main>
-
+    <main></main>
     <footer>
       <div class="footer-container">
         <div class="footer-container__text">2024 Nyisztor Zsolt</div>
