@@ -1,4 +1,5 @@
 import { getLocationInput, getCurrentPosition } from './location';
+import HttpError from './error';
 
 async function getWeather(locationConfig) {
   const { loc, lat, lon, unit } = locationConfig;
@@ -16,9 +17,16 @@ async function getWeather(locationConfig) {
       response = await fetch(geolocation);
     }
 
-    return await response.json();
+    if (response.status === 200) {
+      return await response.json();
+    } else {
+      throw new HttpError(
+        `Whoops something went wrong! HTTP code: ${response.status}`,
+        response.status
+      );
+    }
   } catch (err) {
-    console.error(err);
+    throw err;
   }
 }
 
