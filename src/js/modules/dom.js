@@ -240,9 +240,9 @@ function httpError(httpCode, parentEl) {
   parentEl.innerHTML = '';
 
   errWrapper.classList.add('http-error-wrapper');
-  img.classList.add('http-error-img');
 
   Object.assign(img, {
+    className: 'http-error-img',
     src: `https://http.cat/${httpCode}`,
     alt: `HTTP error code with an image of a cat. Code:${httpCode}`,
   });
