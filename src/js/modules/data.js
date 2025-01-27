@@ -1,5 +1,5 @@
 import { getLocationInput, getCurrentPosition } from './location';
-import HttpError from './error';
+import { HttpError } from './error';
 
 async function getWeather(locationConfig) {
   const { loc, lat, lon, unit } = locationConfig;
@@ -26,7 +26,12 @@ async function getWeather(locationConfig) {
       );
     }
   } catch (err) {
-    throw err;
+    if (err instanceof HttpError) {
+      err.showHttpErrorImg();
+      console.error(err.message);
+    } else {
+      throw new Error(`Network error or invalid request: ${err.message}`);
+    }
   }
 }
 
