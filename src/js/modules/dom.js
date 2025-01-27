@@ -234,30 +234,20 @@ function dayWeatherElement(data, mainContainer) {
   });
 }
 
-function httpError(httpCode, parentEl) {
-  const errWrapper = document.createElement('div');
-  const img = document.createElement('img');
-  parentEl.innerHTML = '';
-
-  errWrapper.classList.add('http-error-wrapper');
-
-  Object.assign(img, {
-    className: 'http-error-img',
-    src: `https://http.cat/${httpCode}`,
-    alt: `HTTP error code with an image of a cat. Code:${httpCode}`,
-  });
-
-  parentEl.appendChild(errWrapper);
-  errWrapper.appendChild(img);
+function clearStatusText() {
+  const statusText = document.querySelector('.status-message__text');
+  statusText.textContent = '';
 }
 
 async function renderCompleteWeather(ev) {
   const mainEl = document.querySelector('main');
-
   mainEl.innerHTML = '';
+  clearStatusText();
 
   try {
     const weatherData = await handleWeatherEv(ev);
+    if (!weatherData) return;
+
     currentWeatherElement(weatherData, mainEl);
     displayAlerts(weatherData);
     hourWeatherContainer(mainEl);
@@ -265,7 +255,6 @@ async function renderCompleteWeather(ev) {
     updateHourlyWeather(weatherData);
     dayWeatherElement(weatherData, mainEl);
   } catch (err) {
-    httpError(err.status, mainEl);
     console.error(err);
   }
 }
