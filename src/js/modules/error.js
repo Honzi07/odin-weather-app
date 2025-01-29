@@ -24,4 +24,17 @@ class HttpError extends Error {
   }
 }
 
-export { HttpError };
+function showGeoPositionError(errCode) {
+  const statusText = document.querySelector('.status-message__text');
+
+  const errDescription = {
+    1: 'User denied the request for Geolocation.',
+    2: 'Location information is unavailable.',
+    3: 'The request to get user location timed out.',
+    4: 'An unknown error occurred.',
+  };
+
+  statusText.textContent = errDescription[errCode];
+}
+
+export { HttpError, showGeoPositionError };
