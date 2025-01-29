@@ -1,3 +1,5 @@
+import { showGeoPositionError } from './error.js';
+
 const getLocationInput = () => {
   const inputSearch = document.querySelector('#search-input');
   return { loc: inputSearch.value };
@@ -21,7 +23,12 @@ async function getCurrentPosition() {
       lon: position.coords.longitude,
     };
   } catch (err) {
-    console.error(`ERROR(${err.code}): ${err.message}`);
+    if (err instanceof GeolocationPositionError) {
+      showGeoPositionError(err.code);
+      console.error(`Geolocation Error (${err.code}): ${err.message}`);
+    } else {
+      throw err;
+    }
   }
 }
 
