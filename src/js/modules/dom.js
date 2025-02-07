@@ -239,10 +239,26 @@ function clearStatusText() {
   statusText.textContent = '';
 }
 
+function loadingAnimation(parentEl) {
+  if (!parentEl) return;
+
+  const loadingWrapper = document.createElement('div');
+  const loadingSpinner = document.createElement('div');
+
+  loadingWrapper.classList.add('loading-wrapper');
+  loadingSpinner.classList.add('loading-spinner');
+
+  loadingWrapper.appendChild(loadingSpinner);
+  parentEl.appendChild(loadingWrapper);
+
+  return loadingWrapper;
+}
+
 async function renderCompleteWeather(ev) {
   const mainEl = document.querySelector('main');
   mainEl.innerHTML = '';
   clearStatusText();
+  const loadingWrapper = loadingAnimation(mainEl);
 
   try {
     const weatherData = await handleWeatherEv(ev);
@@ -256,6 +272,10 @@ async function renderCompleteWeather(ev) {
     dayWeatherElement(weatherData, mainEl);
   } catch (err) {
     console.error(err);
+  } finally {
+    if (loadingWrapper) {
+      loadingWrapper.remove();
+    }
   }
 }
 
