@@ -41,86 +41,87 @@ const getWindDirection = (windDegree) => {
   return baseRotation < 360 ? baseRotation : baseRotation - 360;
 };
 
-function currentWeatherElement(data, element) {
+function currentWeatherElement(data, parentEl) {
   const html = `
-        <div class="current-weather">
+      <section class="current-weather-container" aria-label="current weather">
         <header class="current-weather__header">
-          <div class="current-weather__today-label">Weather currently</div>
-          <p class="current-weather__update-time">${data.currently.datetime}</p>
+          <h1 class="current-weather__today-label">Current Weather</h1>
+          <time
+            class="current-weather__update-time"
+            datetime="${data.currently.datetime}"
+            >${data.currently.datetime}</time
+          >
         </header>
 
-        <div class="current-weather__summary-container">
-          <div class="current-weather__alert-container">
-          </div>
+        <section class="current-weather__summary-container">
+          <div class="current-weather__alert-container"></div>
           <div class="current-weather__overview-current-temp">
             <img
               class="current-weather__image"
               src="${getWeatherIcon(data.currently.icon)}"
               alt="${data.currently.icon} weather icon"
             />
-            <div class="current-weather__temp">${Math.round(
-              data.currently.temp
-            )} ${data.units.temp}</div>
+            <div class="current-weather__temp">
+              ${Math.round(data.currently.temp)} ${data.units.temp}
+            </div>
             <div class="current-weather__condition-details">
-              <div class="current-weather__condition">${
-                data.currently.conditions
-              }</div>
+              <div class="current-weather__condition">
+                ${data.currently.conditions}
+              </div>
               <div class="current-weather__feelslike-container">
                 <div class="current-weather__feelslike-label">Feels like</div>
-                <span class="current-weather__feelslike-temp">${Math.round(
-                  data.currently.feelslike
-                )}</span>
+                <span class="current-weather__feelslike-temp"
+                  >${Math.round(data.currently.feelslike)}</span
+                >
               </div>
             </div>
           </div>
-          <div class="current-weather__summary">
-          ${data.description}
-          </div>
-        </div>
-        <div class="current-weather__detail-container">
+          <div class="current-weather__summary">${data.description}</div>
+        </section>
+        <section class="current-weather__detail-container">
           <div class="current-weather__wind-item">
             <div class="current-weather__wind-label">Wind</div>
             <div class="current-weather__wind-speed-container">
-              <div class="current-weather__wind-speed">${Math.round(
-                data.currently.windspeed
-              )} ${data.units.speed}</div>
+              <div class="current-weather__wind-speed">
+                ${Math.round(data.currently.windspeed)} ${data.units.speed}
+              </div>
               <i
                 aria-label="Wind direction arrow"
-                class="current-weather__arrow-icon fa-solid fa-location-arrow fa-rotate-by" 
+                class="current-weather__arrow-icon fa-solid fa-location-arrow fa-rotate-by"
                 style="--fa-rotate-angle: ${getWindDirection(
                   data.currently.winddir
                 )}deg;"
               ></i>
             </div>
           </div>
-          <div class="current-weather__humidity-item">
+          <div class="current-weather__humidity-container">
             <div class="current-weather__humidity-label">Humidity</div>
-            <div class="current-weather__humidity-percentage">${Math.round(
-              data.currently.humidity
-            )}%</div>
+            <div class="current-weather__humidity-percentage">
+              ${Math.round(data.currently.humidity)}%
+            </div>
           </div>
-        </div>
-      </div>
+        </section>
+      </section>
   `;
 
-  element.insertAdjacentHTML('beforeend', html);
+  parentEl.insertAdjacentHTML('beforeend', html);
 }
 
-function hourWeatherContainer(element) {
+function hourWeatherContainer(parentEl) {
   const html = `
-      <div class="hourly-weather">
+      <section class="hourly-weather-container" aria-label="hourly weather forecast">
         <div class="hourly-weather__btn-container">
           <button class="hourly-weather__btn hourly-weather__btn--4" data-value="4">4 Hour</button>
           <button class="hourly-weather__btn hourly-weather__btn--24" data-value="1">24 Hour</button>
         </div>
         <div class="hourly-weather__hour-container"></div>
-      </div>
+      </section>
   `;
 
-  element.insertAdjacentHTML('beforeend', html);
+  parentEl.insertAdjacentHTML('beforeend', html);
 }
 
-function hourWeatherElement(data, interval = 3) {
+function hourWeatherElement(data, interval = 4) {
   const container = document.querySelector('.hourly-weather__hour-container');
 
   const getFormattedHour = (hour, i) =>
@@ -133,18 +134,17 @@ function hourWeatherElement(data, interval = 3) {
     i = num;
 
     const html = `
-      <div class="hourly-weather__hour">
-        <div class="hourly-weather__hour-time">${getFormattedHour(
-          nextTwoDays[i].datetime,
-          i
-        )}</div>
+      <article class="hourly-weather__hour">
+        <time class="hourly-weather__hour-time" datetime="${
+          nextTwoDays[i].datetime
+        }">${getFormattedHour(nextTwoDays[i].datetime, i)}</time>
         <img class="hourly-weather__hour-icon" src="${getWeatherIcon(
           nextTwoDays[i].icon
         )}" alt=" ${nextTwoDays[i].icon} weather icon" />
         <div class="hourly-weather__hour-temp">${Math.round(
           nextTwoDays[i].temp
         )}</div>
-      </div>
+      </article>
   `;
 
     container.insertAdjacentHTML('beforeend', html);
@@ -167,7 +167,7 @@ function updateHourlyWeather(data) {
 
 function dayWeatherElement(data, mainContainer) {
   const daysSection = document.createElement('section');
-  daysSection.classList.add('days-section');
+  daysSection.classList.add('day-weather-container');
   daysSection.setAttribute('aria-label', 'next 14 day weather forecast');
   mainContainer.appendChild(daysSection);
 
@@ -196,13 +196,13 @@ function dayWeatherElement(data, mainContainer) {
     const [date, weekday] = getFormattedDate(datetime);
 
     const html = `
-            <div class="day-weather">
+            <article class="day-weather">
             <div class="day-weather__date-container">
               <div class="day-weather__weekday">${weekday}</div>
               <time class="day-weather__date" datetime="${datetime}">${date}</time>
             </div>
   
-            <div class="day-weather__wrapper">
+            <div class="day-weather__icon-wrapper">
               <img class="day-weather__icon" src="${getWeatherIcon(
                 icon
               )}" alt="${icon} weather icon" />
@@ -227,7 +227,7 @@ function dayWeatherElement(data, mainContainer) {
                 aria-label="Wind direction arrow"
               ></i>
             </div>
-          </div>
+          </article>
     `;
 
     daysSection.insertAdjacentHTML('beforeend', html);
@@ -239,7 +239,7 @@ function clearStatusText() {
   statusText.textContent = '';
 }
 
-function loadingAnimation(parentEl) {
+function createLoadingAnimation(parentEl) {
   if (!parentEl) return;
 
   const loadingWrapper = document.createElement('div');
@@ -258,7 +258,7 @@ async function renderCompleteWeather(ev) {
   const mainEl = document.querySelector('main');
   mainEl.innerHTML = '';
   clearStatusText();
-  const loadingWrapper = loadingAnimation(mainEl);
+  const loadingWrapper = createLoadingAnimation(mainEl);
 
   try {
     const weatherData = await handleWeatherEv(ev);
