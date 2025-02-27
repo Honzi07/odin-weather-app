@@ -1,14 +1,5 @@
 import { getProcessGeoWeather, getProcessUserWeather } from './data';
 
-function getHtmlElement() {
-  return {
-    form: document.querySelector('.search-container__form'),
-    searchInput: document.querySelector('.search-container__input'),
-    btnGeo: document.querySelector('.search-container__geolocation-btn'),
-    summary: document.querySelector('.current-weather__summary'),
-  };
-}
-
 async function handleWeatherEv(ev) {
   ev.preventDefault();
 
@@ -279,5 +270,10 @@ async function renderCompleteWeather(ev) {
   }
 }
 
-getHtmlElement().form.addEventListener('submit', renderCompleteWeather);
-getHtmlElement().btnGeo.addEventListener('click', renderCompleteWeather);
+document
+  .querySelector('.search-container__form')
+  .addEventListener('submit', renderCompleteWeather);
+
+document
+  .querySelector('.search-container__geolocation-btn')
+  .addEventListener('click', renderCompleteWeather);
