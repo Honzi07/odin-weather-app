@@ -1,5 +1,5 @@
-import '../css/base/reset.css';
-import '../css/main.css';
+import '../scss/base/reset.scss';
+import '../scss/main.scss';
 import './modules/data.js';
 import './modules/location.js';
 import './modules/dom.js';
